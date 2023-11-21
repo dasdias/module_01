@@ -1,13 +1,14 @@
 'use strict';
 
 {
-	function gcd(a, b) {
-		if (b === 0) {
-			return a;
-		} else {
-			return gcd(b, a % b);
-		}
-	}
-	console.log(gcd(24, 36)); // выводит 12
-	console.log(gcd(17, 23)); // выводит 1
+  const divider = (a, b) => {
+    if (b === 0) {
+      return a;
+    } else {
+      const num = a % b;
+
+      return divider(b, num);
+    }
+  }
+  console.log(divider(36, 48));
 }
