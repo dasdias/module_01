@@ -2,31 +2,38 @@
 
 {
 	let getNuber = prompt('Игра угадай число \nЗагадано число от 1 до 100 \nПопробуйте угадать число которое загадал компьютер \nВведите ваше число :');
-	// console.log('getNuber: ', getNuber);
 
-	const startGame = (value) => {
-		if (value === null) {
-			console.log('value: ', value);
-			return alert('Игра окончена!');
-		} else if (!+value.trim() || +value.trim() === 0) {
-			console.log('value: ', +value.trim());
-			value = prompt('Введи число! :');
-			startGame(value);
-		} else {
-			console.log('value: ', +value.trim());
+	const gameProp = {
+		statusGame: false,
+		getRandomMinMax: (min, max) => {
+			if (min > max) {
+				[min, max] = [max, min];
+			}
+			gameProp.statusGame = true;
+			return Math.floor(Math.random() * (max - min + 1) + min);
 		}
 	}
 
-	// const getRandomMinMax = (min, max) => {
-	// 	if (min > max) {
-	// 		[min, max] = [max, min];
-	// 	}
-	// 	return Math.floor(Math.random() * (max - min + 1) + min);
-	// }
-	// const number = getRandomMinMax(1, 100);
+	const number = gameProp.getRandomMinMax(1, 100);
 
-	// if (getNuber > number) {
+	const startGame = (value) => {
+		if (value === null) {
+			return alert('Игра окончена!');
+		} else if (!+value.trim() || +value.trim() === 0) {
+			value = prompt('Введи число! :');
+			startGame(value);
+		} else {
+			if (+getNuber.trim() > number) {
+				getNuber = prompt('Меньше! \nВведите новый вариант:')
+				startGame(getNuber)
+			} else if (+getNuber.trim() < number) {
+				getNuber = prompt('Больше! \nВведите новый вариант:')
+				startGame(getNuber)
+			} else if (+getNuber.trim() === number) {
+				alert('Правильно!')
+			}
+		}
+	}
 
-	// }
 	startGame(getNuber);
 }
