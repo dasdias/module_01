@@ -41,5 +41,4 @@
 	cart.add('Ноутбук игровой Lenovo IdeaPad Gaming 3 15ACH6', 79999, 2);
 	cart.add('Ноутбук игровой MSI Katana 17 B13VFK-487XRU', 139999, 2);
 	cart.print();
-	console.log(cart);
 }
