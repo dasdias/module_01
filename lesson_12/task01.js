@@ -12,8 +12,29 @@
     '\nЗагадано число от 1 до 100 ' +
     '\nПопробуйте угадать число которое загадал компьютер' +
     ' \nВведите максимальное число :');
+    // проверяем условия игры
+
+  /**
+   *
+   * @param {any} userMass mass
+   * @return {any} any
+   */
+  function checkVariant(userMass) {
+    const lastNum = userMass[userMass.length - 1];
+    if (lastNum > botNumber) {
+      getCurrentNum = prompt('Меньше \nВдите новый вариант! :');
+      return getUserNumber(getCurrentNum);
+    } else if (lastNum < botNumber) {
+      getCurrentNum = prompt('Больше \nВдите новый вариант! :');
+      return getUserNumber(getCurrentNum);
+    } else if (lastNum === botNumber) {
+      return alert('Правильно \nИгра окончена!');
+    }
+  }
+
   userStartNum.push(getNuberOne);
   userStartNum.push(getNuberTwo);
+
 
   // Проверяем максимальное и минимальное число
   const checkStartNumber = function(userStartNum) {
@@ -57,26 +78,12 @@
     return (numTwo - numOne) / 100 * 30;
   };
 
-  // проверяем условия игры
-  const checkVariant = (userMass) => {
-    const lastNum = userMass[userMass.length - 1];
-    if (lastNum > botNumber) {
-      getCurrentNum = prompt('Меньше \nВдите новый вариант! :');
-      return getUserNumber(getCurrentNum);
-    } else if (lastNum < botNumber) {
-      getCurrentNum = prompt('Больше \nВдите новый вариант! :');
-      return getUserNumber(getCurrentNum);
-    } else if (lastNum === botNumber) {
-      return alert('Правильно \nИгра окончена!');
-    }
-  };
-
   // получаем от пользователя число и проверяем его
   const getUserNumber = (val) => {
     // если null то пользователь не хочет играть и нажал отмена
     if (val === null) {
       return alert('Игра окончена!');
-    } else if (!+val.trim() || +val.trim() === 0) { // проверяем первое число
+    } else if (!+val.trim() || +val.trim() === 0) {
       getCurrentNum = prompt('Введи число! :');
       return getUserNumber(getCurrentNum);
     } else if (userCurrentNum.includes(+val)) {
