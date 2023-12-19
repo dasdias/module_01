@@ -5,11 +5,12 @@
   let resultAttempt = 0; // количество попыток
   let getCurrentNum = ''; // получаем число от пользователя
   let botNumber = 0; // число загаданное ботом
+  let checkStartGame = true;
   let getNuberOne = prompt('Игра угадай число' +
-  '\nКомпьютер загадает число в диапазоне введёных вами двух' +
-  ' чисел от 1 до 100' +
-  '\nПопробуйте угадать число которое загадал компьютер' +
-  ' \nВведите минимальное число число :');
+    '\nКомпьютер загадает число в диапазоне введёных вами двух' +
+    ' чисел от 1 до 100' +
+    '\nПопробуйте угадать число которое загадал компьютер' +
+    ' \nВведите минимальное число число :');
   let getNuberTwo = prompt('Введите максимальное число от 1 до 100 :');
 
   // проверяем условия игры
@@ -19,10 +20,12 @@
     if (lastNum > botNumber) {
       getCurrentNum = prompt('Меньше \nВдите новый вариант! :');
       return getUserNumber(getCurrentNum);
-    } else if (lastNum < botNumber) {
+    }
+    if (lastNum < botNumber) {
       getCurrentNum = prompt('Больше \nВдите новый вариант! :');
       return getUserNumber(getCurrentNum);
-    } else if (lastNum === botNumber) {
+    }
+    if (lastNum === botNumber) {
       return alert('Правильно \nИгра окончена!');
     }
   };
@@ -32,12 +35,13 @@
 
 
   // Проверяем максимальное и минимальное число
-  const checkStartNumber = function(userStartNum) {
+  const checkStartNumber = function (userStartNum) {
     const [num1, num2] = userStartNum;
 
     // если null то пользователь не хочет играть и нажал отмена
     if (num1 === null || num2 === null) {
-      alert('Игра окончена!');
+      checkStartGame = false;
+      return alert('Игра окончена!');
     } else if (!+num1.trim() || +num1.trim() === 0) { // проверяем первое число
       getNuberOne = prompt('Введите минимальное число! :');
       userStartNum[0] = getNuberOne;
@@ -48,14 +52,14 @@
       checkStartNumber(userStartNum);
     } else if (+num1.trim() < 1 || +num1.trim() > 100) {
       getNuberOne = prompt('Вы ввели число выходящее из' +
-      ' разрешённого диапазона' +
-      '\nВведите минимальное число от 1 до 100 :');
+        ' разрешённого диапазона' +
+        '\nВведите минимальное число от 1 до 100 :');
       userStartNum[0] = getNuberOne;
       checkStartNumber(userStartNum);
     } else if (+num2.trim() < 1 || +num2.trim() > 100) {
       getNuberTwo = prompt('Вы ввели число выходящее из' +
-      ' разрешённого диапазона' +
-      '\nВведите максимальное число от 1 до 100 :');
+        ' разрешённого диапазона' +
+        '\nВведите максимальное число от 1 до 100 :');
       userStartNum[1] = getNuberTwo;
       checkStartNumber(userStartNum);
     }
@@ -63,7 +67,7 @@
   };
 
   // получаем случайное число и чисел введённых пользователем
-  const getRandomMinMax = (mass) => {
+  const getRandomMinMax = (mass = []) => {
     let [min = 0, max = 0] = mass;
     min = Number(min);
     max = Number(max);
@@ -90,20 +94,22 @@
 
   // получаем от пользователя число и проверяем его
   const getUserNumber = (val) => {
-  // если null то пользователь не хочет играть и нажал отмена
+    // если null то пользователь не хочет играть и нажал отмена
     if (val === null) {
+      checkStartGame = false;
       return alert('Игра окончена!');
     } else if (!+val.trim() || +val.trim() === 0) {
       getCurrentNum = prompt('Введи число! :');
       return getUserNumber(getCurrentNum);
-    } else if (userCurrentNum.includes(+val)) {
+    }
+    if (userCurrentNum.includes(+val)) {
       getCurrentNum = prompt('Это число вы уже вводили!' +
-      '\nВведите другое число :');
+        '\nВведите другое число :');
       return getUserNumber(getCurrentNum);
     }
     if (resultAttempt <= 1) {
       return alert('Игра окончена!\nЗакончились попытки' +
-      '\nЗагаданное число было ' + botNumber);
+        '\nЗагаданное число было ' + botNumber);
     }
     resultAttempt -= 1;
     userCurrentNum.push(+val);
@@ -111,7 +117,7 @@
   };
 
   const startGame = () => {
-    if (botNumber === 0) {
+    if (botNumber === 0 || !checkStartGame) {
       return;
     }
     // количество попыток
