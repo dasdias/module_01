@@ -1,4 +1,5 @@
 (() => {
+  const FIGURES_ENG = ['rock', 'scissors', 'paper'];
   const FIGURES_RUS = ['камень', 'ножницы', 'бумага'];
 
   const getRandomMinMax = (min, max) => {
@@ -9,16 +10,39 @@
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
-  console.log('getRandomMinMax: ', getRandomMinMax(1, 3));
+
 
   const game = () => {
     const result = {
       player: 0,
       computer: 0,
     };
-    return function start() {
+    const userWalk = () => {
+      const getUserWalk = prompt(`камень, ножницы, бумага?`);
+      checkWalk(getUserWalk);
+    };
 
+    // проверка хочет ли игрок играть
+    const checkWalk = (checkUserWalk) => {
+      if (checkUserWalk === null) {
+        const checkEndGame = confirm('Продолжаем игру?');
+        console.log('checkEndGame: ', checkEndGame);
+        if (!checkEndGame) {
+          return alert(`Игрок выиграл: ${result.player}
+            Компьютер выиграл: ${result.player} 
+          `);
+        } else {
+          return userWalk();
+        }
+      } else {
+        userWalk();
+      }
+    };
+
+    return function start() {
+      userWalk();
+      console.log('getRandomMinMax: ', getRandomMinMax(1, 3));
     };
   };
-  window.startGame = game;
+  window.gameRSP = game;
 })();
