@@ -18,12 +18,14 @@
       computer: 0,
     };
     let computerNumber = 0;
+    let flagContinueGame = false;
 
     return function start() {
       const userWalk = () => { // Пользователь вводит вариант ответа
+        computerNumber = getRandomMinMax(0, 2);
         const getUserWalk = prompt(`камень, ножницы, бумага?`);
-        if (checkWalk(getUserWalk)) {
-          checkWalk(getUserWalk);
+        checkWalk(getUserWalk);
+        if (flagContinueGame) {
           checkWord(getUserWalk);
         }
       };
@@ -41,7 +43,7 @@
             userNum === 1 && compNum === 2 ||
             userNum === 2 && compNum === 0) {
           result.player += 1;
-          alert(`Пользователь выиграл 
+          alert(`Пользователь выиграл!
 Пользователь выбрал: ${FIGURES_RUS[userNum]}
 Компьютер выбрал: ${FIGURES_RUS[compNum]}
           `);
@@ -52,7 +54,7 @@
           userNum === 0 && compNum === 2 ||
           userNum === 2 && compNum === 1) {
           result.computer += 1;
-          alert(`Компьютер выиграл
+          alert(`Компьютер выиграл!
 Пользователь выбрал: ${FIGURES_RUS[userNum]}
 Компьютер выбрал: ${FIGURES_RUS[compNum]}
           `);
@@ -66,7 +68,6 @@
         if (step !== '') {
           const resWord = FIGURES_RUS.findIndex(item =>
             item.substring(0, step.length) === step);
-          console.log('resWord: ', resWord);
           return resWord;
         }
         return -1;
@@ -78,22 +79,25 @@
           const checkEndGame = confirm('Продолжаем игру?');
           if (!checkEndGame) { // пользователь подтверждает, что хочет выйти
             alert(`Игрок выиграл: ${result.player}
-Компьютер выиграл: ${result.player} 
+Компьютер выиграл: ${result.computer} 
           `);
-            return false;
+            flagContinueGame = false;
+            return;
           } else { // пользователь играет дальше
             userWalk();
-            return true;
+            flagContinueGame = false;
+            return;
           }
         }
         if (checkWord(checkUserWalk) !== -1) { // всё хорошо, играем
-          computerNumber = getRandomMinMax(0, 2);
           compare(checkWord(checkUserWalk), computerNumber);
-          return false;
+          flagContinueGame = false;
+          return;
         } else { // неправильный ввод слова
           alert('Введите камень, ножницы или бумагу');
           userWalk();
-          return true;
+          flagContinueGame = false;
+          return;
         }
       };
 
