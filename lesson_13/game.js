@@ -89,10 +89,11 @@
         if (checkWord(checkUserWalk) !== -1) { // всё хорошо, играем
           computerNumber = getRandomMinMax(0, 2);
           compare(checkWord(checkUserWalk), computerNumber);
-          return;
+          return false;
         } else { // неправильный ввод слова
           alert('Введите камень, ножницы или бумагу');
           userWalk();
+          return true;
         }
       };
 
