@@ -20,28 +20,48 @@
     let computerNumber = 0;
 
     return function start() {
-      const userWalk = () => {
+      const userWalk = () => { // Пользователь вводит вариант ответа
         const getUserWalk = prompt(`камень, ножницы, бумага?`);
         if (checkWalk(getUserWalk)) {
           checkWalk(getUserWalk);
-          computerNumber = getRandomMinMax(1, 3);
-          console.log(computerNumber);
           checkWord(getUserWalk);
         }
       };
 
-      const compare = (userNum, compNum) => {
+      const compare = (userNum, compNum) => { // сравниваем загаданные числа
         if (userNum === compNum) {
-          alert('Ничья');
+          alert(`Ничья 
+Пользователь выбрал: ${FIGURES_RUS[userNum]}
+Компьютер выбрал: ${FIGURES_RUS[compNum]}
+          `);
+          userWalk();
           return;
         }
-        if (userNum > compNum) {
-          alert('');
+        if (userNum === 0 && compNum === 1 ||
+            userNum === 1 && compNum === 2 ||
+            userNum === 2 && compNum === 0) {
+          result.player += 1;
+          alert(`Пользователь выиграл 
+Пользователь выбрал: ${FIGURES_RUS[userNum]}
+Компьютер выбрал: ${FIGURES_RUS[compNum]}
+          `);
+          userWalk();
+          return;
+        }
+        if (userNum === 1 && compNum === 0 ||
+          userNum === 0 && compNum === 2 ||
+          userNum === 2 && compNum === 1) {
+          result.computer += 1;
+          alert(`Компьютер выиграл
+Пользователь выбрал: ${FIGURES_RUS[userNum]}
+Компьютер выбрал: ${FIGURES_RUS[compNum]}
+          `);
+          userWalk();
           return;
         }
       };
 
-      const checkWord = (userStep) => {
+      const checkWord = (userStep) => { // проверяем введёное слово
         const step = userStep.toLowerCase().trim();
         if (step !== '') {
           const resWord = FIGURES_RUS.findIndex(item =>
@@ -58,7 +78,7 @@
           const checkEndGame = confirm('Продолжаем игру?');
           if (!checkEndGame) { // пользователь подтверждает, что хочет выйти
             alert(`Игрок выиграл: ${result.player}
-            Компьютер выиграл: ${result.player} 
+Компьютер выиграл: ${result.player} 
           `);
             return false;
           } else { // пользователь играет дальше
@@ -66,11 +86,11 @@
             return true;
           }
         }
-        if (checkWord(checkUserWalk) !== -1) {
-          console.log('Играем дальше');
-
-          // return true;
-        } else {
+        if (checkWord(checkUserWalk) !== -1) { // всё хорошо, играем
+          computerNumber = getRandomMinMax(0, 2);
+          compare(checkWord(checkUserWalk), computerNumber);
+          return;
+        } else { // неправильный ввод слова
           alert('Введите камень, ножницы или бумагу');
           userWalk();
         }
