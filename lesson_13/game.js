@@ -49,10 +49,7 @@
           `);
           userWalk();
           return;
-        }
-        if (userNum === 1 && compNum === 0 ||
-          userNum === 0 && compNum === 2 ||
-          userNum === 2 && compNum === 1) {
+        } else {
           result.computer += 1;
           alert(`Компьютер выиграл!
 Пользователь выбрал: ${FIGURES_RUS[userNum]}
