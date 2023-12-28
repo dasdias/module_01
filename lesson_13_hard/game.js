@@ -2,10 +2,24 @@
 (() => {
   const FIGURES_ENG = ['rock', 'scissors', 'paper'];
   const FIGURES_RUS = ['камень', 'ножницы', 'бумага'];
-  const MSG_ENG = ['Shall we continue the game?', 'The user won', 'Draw',
-    'User selected', 'The computer has chosen', 'The computer won'];
-  const MSG_RUS = ['Продолжаем игру?', 'Пользователь выиграл', 'Ничья',
-    'Пользователь выбрал', 'Компьютер выбрал', 'Компьютер выиграл'];
+  const langObj = {
+    en: {
+      continueGame: 'Shall we continue the game?',
+      userWon: 'The user won',
+      draw: 'Draw',
+      userSelected: 'User selected',
+      computerСhosen: 'The computer has chosen',
+      computerWon: 'The computer won',
+    },
+    ru: {
+      continueGame: 'Продолжаем игру?',
+      userWon: 'Пользователь выиграл',
+      draw: 'Ничья',
+      userSelected: 'Пользователь выбрал',
+      computerСhosen: 'Компьютер выбрал',
+      computerWon: 'Компьютер выиграл',
+    },
+  };
 
   const getRandomMinMax = (min, max) => {
     if (min > max) {
@@ -15,7 +29,6 @@
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
-
 
   const game = (language) => {
     const result = {
@@ -28,8 +41,8 @@
     const lang = language === 'EN' || language === 'ENG' ?
     FIGURES_ENG : FIGURES_RUS;
 
-    const magLang = language === 'EN' || language === 'ENG' ?
-    MSG_ENG : MSG_RUS;
+    const msgLang = language === 'EN' || language === 'ENG' ?
+    langObj.en : langObj.ru;
 
     return function start() {
       const userWalk = () => { // Пользователь вводит вариант ответа
@@ -43,9 +56,9 @@
 
       const compare = (userNum, compNum) => { // сравниваем загаданные числа
         if (userNum === compNum) { // ничья
-          alert(`${magLang[2]} 
-${magLang[3]}: ${lang[userNum]}
-${magLang[4]}: ${lang[compNum]}
+          alert(`${msgLang.draw} 
+${msgLang.userSelected}: ${lang[userNum]}
+${msgLang.computerСhosen}: ${lang[compNum]}
           `);
           userWalk();
           return;
@@ -55,21 +68,17 @@ ${magLang[4]}: ${lang[compNum]}
             userNum === 1 && compNum === 2 ||
             userNum === 2 && compNum === 0) {
           result.player += 1;
-          alert(`${magLang[1]}!
-${magLang[3]}: ${lang[userNum]}
-${magLang[4]}: ${lang[compNum]}
+          alert(`${msgLang.userWon}!
+${msgLang.userSelected}: ${lang[userNum]}
+${msgLang.computerСhosen}: ${lang[compNum]}
           `);
           userWalk();
           return;
-        }
-        // компьютер выиграл
-        if (userNum === 1 && compNum === 0 ||
-          userNum === 0 && compNum === 2 ||
-          userNum === 2 && compNum === 1) {
+        } else { // компьютер выиграл
           result.computer += 1;
-          alert(`${magLang[5]}!
-${magLang[3]}: ${lang[userNum]}
-${magLang[4]}: ${lang[compNum]}
+          alert(`${msgLang.computerWon}!
+${msgLang.userSelected}: ${lang[userNum]}
+${msgLang.computerСhosen}: ${lang[compNum]}
           `);
           userWalk();
           return;
@@ -89,10 +98,10 @@ ${magLang[4]}: ${lang[compNum]}
       // проверка хочет ли игрок играть
       const checkWalk = (checkUserWalk) => {
         if (checkUserWalk === null) { // Если пользователь нажал отмена
-          const checkEndGame = confirm(`${magLang[0]}`);
+          const checkEndGame = confirm(`${msgLang.continueGame}`);
           if (!checkEndGame) { // пользователь подтверждает, что хочет выйти
-            alert(`${magLang[1]}: ${result.player}
-${magLang[5]}: ${result.computer} 
+            alert(`${msgLang.userWon}: ${result.player}
+${msgLang.computerWon}: ${result.computer} 
           `);
             flagContinueGame = false;
             return;
